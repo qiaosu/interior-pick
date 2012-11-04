@@ -1,0 +1,13 @@
+!!! 5
+%html
+  %head
+    %meta{:charset => "utf-8"}/
+    %title Todo App
+    %link{:rel => "stylesheet", :media => "screen, projection", :href => "/stylesheets/bootstrap.min.css"}
+    %link{:rel => "stylesheet", :media => "screen, projection", :href => "/stylesheets/bootstrap-responsive.css"}
+    %link{:rel => "stylesheet", :media => "screen, projection", :href => "/stylesheets/style.css"}
+    /[if lt IE 9]
+      %script{:src => "http://html5shiv.googlecode.com/svn/trunk/html5.js"}
+  %body   
+    = yield
+    = javascripts

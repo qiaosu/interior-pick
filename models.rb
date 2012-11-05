@@ -1,3 +1,5 @@
+=begin
+
 DB = DataMapper.setup(:default, "mysql://kenshin:lx123456@localhost/interior_pick")
 
 class User
@@ -35,3 +37,5 @@ end
 
 DataMapper.finalize
 DataMapper.auto_upgrade!
+
+=end

@@ -51,7 +51,7 @@ a{
 	position: relative;
 	font-family: 'Pacifico', Cambria, Georgia, serif;
 	font-weight: 300;
-	color: #c0e3e8;
+	color: #b8d6a6;
 	padding-bottom: 20px;
 	text-shadow: 0 1px 1px rgba(0,0,0,0.3);
 }
@@ -64,11 +64,11 @@ a{
 	margin: 0;
 	width: 200px;
 	line-height: 20px;
-	color: #fff;
+	color: #999;
 	display: inline;
 	clear: both;
-	letter-spacing: 2px;	
-	text-shadow: 0 1px 1px rgba(0,0,0,0.3);
+	letter-spacing: 0px;	
+	text-shadow: 0 1px 1px rgba(0,0,0,0.1);
 }
 .container > header h2 strong{
 	text-decoration: underline;
@@ -89,14 +89,14 @@ a{
 }
 .top-bar a{
 	padding: 0px 10px;
-	letter-spacing: 1px;
+	letter-spacing: 0px;
 	color: #333;
 	display: inline-block;
 }
 .top-bar a.logo{
 	font-family: 'Pacifico', Cambria, Georgia, serif;
 	font-weight: 300;
-	color: #c0e3e8;
+	color: #b8d6a6;
 	text-shadow: 0 1px 1px rgba(0,0,0,0.3);
 	font-size: 16px;
 }

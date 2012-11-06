@@ -53,7 +53,7 @@ class Image
 
   property :id, Serial
 
-  mount_uploader :source, ImageUploader
+  mount_uploader :file, ImageUploader
 end
 
 DataMapper.finalize

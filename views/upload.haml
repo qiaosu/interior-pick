@@ -1,0 +1,16 @@
+%form#j-upload-form
+  .form-item
+    %label.item-label{:for => "upload"} 上传图片：
+    #j-frame-upload-placeholder
+      .j-file-container
+      %a.btn.j-upload-btn{:href => "#"}
+        %span 点击上传图片
+      .j-uploading.hide
+        正在上传文件...[
+        %a.j-cancel-link{:href => 'javascript:void(0);'} 取消上传
+        ]
+      .j-explain
+    .item-explain 支持GIF,JPG,PNG,BMP格式，最多6张，每张需小于2M。
+%form#j-attach-upload-form
+  %span.j-filecontrol
+    %input.j-filecontrol-item{:type => 'file', :name => 'file'}/

@@ -39,3 +39,22 @@ DataMapper.finalize
 DataMapper.auto_upgrade!
 
 =end
+
+
+
+DB = DataMapper.setup(:default, "mysql://kenshin:lx123456@localhost/interior_usb")
+
+class ImageUploader < CarrierWave::Uploader::Base
+  storage :file
+end
+
+class Image
+  include DataMapper::Resource
+
+  property :id, Serial
+
+  mount_uploader :source, ImageUploader
+end
+
+DataMapper.finalize
+DataMapper.auto_upgrade!

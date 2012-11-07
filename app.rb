@@ -7,6 +7,7 @@ require 'data_mapper'
 require 'dm-mysql-adapter'
 require 'carrierwave'
 require 'carrierwave/datamapper'
+#require 'rmagick'
 
 enable :sessions
 

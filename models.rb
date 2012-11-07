@@ -40,11 +40,19 @@ DataMapper.auto_upgrade!
 
 =end
 
-
+CarrierWave::SanitizedFile.sanitize_regexp = /[^[:word:]\.\-\+]/
 
 DB = DataMapper.setup(:default, "mysql://kenshin:lx123456@localhost/interior_usb")
 
 class ImageUploader < CarrierWave::Uploader::Base
+  def store_dir
+    'uploads/usr/'
+  end
+
+  def extension_white_list
+    %w(jpg jpeg png)
+  end
+
   storage :file
 end
 

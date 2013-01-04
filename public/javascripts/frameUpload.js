@@ -1,5 +1,6 @@
 /**
  * dep: jQuery
+ * 2012.11.12 待重构
  */
 !function(name, definition){
     _[name] = definition();
@@ -51,15 +52,17 @@
 	        this._getCallbackInput().appendTo(this._targetForm);
 	        var that = this;
 	        window[this.callbackName] = function() {
-	        	_.log('AfterUpload');
-	            /*if(that.resetFileInput) {
+	            if(that.resetFileInput) {
 	                //重置file表单
 	                $(':file', that._targetForm).each(function(i,v) {
 	                    that.resetFile(v);
 	                });
-	            }*/
-	            //$E.publish('AfterUpload', [].slice.call(arguments));
+	            }
+                _.log('AfterUpload');
+	            that.trigger('AfterUpload', [].slice.call(arguments));
 	        }
+
+            this.check();
         },
         bind: function(){
         	var that = this;
@@ -77,16 +80,21 @@
         	$(this._cache.placeholder).on('click', '.j-delete-link', this.deletePic);
         },
         subscribe: function(){
-
-        },
-        create: function(){
-
+            this.on('AfterUpload', this.complete);
         },
         check: function(){
-
+            //设置初始状态
+            if (this.uploadedCount >= this.maxFileCount) {
+                this.updateStatus("max");
+            }
+            else {
+                this.reset();
+            }
         },
         reset: function(){
-
+            this.updateStatus("init");
+            //将filecontrol的value置空，以免用户再次选择统一文件时不能触发onchange
+            this.resetFile($(".j-filecontrol",this._targetForm)[0]);
         },
         change: function(file){
         	this.select(file);
@@ -102,10 +110,17 @@
 	        }
         },
         cancel: function(){
-
+            this._status = -1;
+            this._createIframe().attr('src', "javascript:'';");
+            this.reset();
         },
-        deletePic: function(){
-
+        deletePic: function(e){
+            //TODO:删掉当前文件节点
+            this.uploadedCount --;
+            $(e.target).parents('div')[0].remove();
+            //删除生成的input
+            //重置组件状态
+            this.onReset();
         },
         upload: function(){
 			this.trigger('BeforeUpload', [this._targetForm]);
@@ -113,20 +128,35 @@
         	this._targetForm.trigger('submit');
         	//this.trigger('afterUpload', [this._targetForm]);
         },
-        complete: function(callback){
-        	if (this.status_ == -1) {
-	            this.status_ = 0;
+        complete: function(callbackParameter){
+            console.log(callbackParameter);
+            /*
+        	if (this._status == -1) {
+	            this._status = 0;
 	            return;
 	        }
-	        if (callback.stat == "ok") {
-	            this.success(callback);
+	        if (callbackParameter.stat == "ok") {
+	            this.success(callbackParameter);
 	        }
 	        else {
-	            this.onFail(callback);
-	        }
+	            this.error(callbackParameter);
+	        }*/
         },
-        success: function(){
-
+        success: function(callbackParameter){
+            this.uploadedCount ++;
+            //将新上传的文件显示出来
+            var newfile = $("<div class='j-visual-file'>" +
+                    "<a href='" + callbackParameter.picUrl + "' target='_blank' >" + callbackParameter.picName + "</a>" + 
+                    "<span class='j-button-wrapper'>[<a href='javascript:void(0);' class='j-delete-button' data-picId='" + callbackParameter.picId + "'>删除</a>]</span>" + 
+               "</div>");
+            newfile.appendTo(this._cache.container);
+            //判断是否到达上限
+            if (this.uploadedCount >= this.maxFileCount) {
+                this.updateStatus("max");
+            }
+            else {
+                this.updateStatus("success");
+            }
         },
         error: function(type){
         	switch (type) {
@@ -200,7 +230,6 @@ _.upload = new _.FrameUpload({
 	"form": "#j-upload-form",	//id
     "placeholder": "#j-frame-upload-placeholder",	//id
     "postUrl": "/upload",
-    "delUrl": "/photo-delete",
     "resetFileInput": true,
     "allowFileType": ['jpg', 'jpeg', 'png'],
     "autoUpload": false,

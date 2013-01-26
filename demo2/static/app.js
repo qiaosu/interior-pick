@@ -39,6 +39,13 @@ var ListView = Backbone.View.extend({
     total: 0
   },
   events: {},
+  resetView: function(){
+    this.setting.view = {
+      w: $(window).width(),
+      h: $(window).height()
+    };
+    this.setting.total = 0;
+  },
   initialize: function(){
     this.model = new window.PicList();
     this.initData();
@@ -90,6 +97,7 @@ var ListView = Backbone.View.extend({
   },
   initView: function(){
     var _self = this;
+    $(_self.el).empty();
     _.each(this.model.models, function(data){
       var snippet = _self.getTpl(data.attributes, Template.item_tpl);
       snippet = $(snippet);
@@ -101,12 +109,12 @@ var ListView = Backbone.View.extend({
   calulatePos: function(data, snippet){
     var _size = this.setting.view;
     var _r_size = {
-      h: _size.h,
-      w: data.get('w') * (_size.h / data.get('h'))
+      h: _size.h - 40,
+      w: data.get('w') * (_size.h - 40) / data.get('h')
     };
     snippet.css({
-      width: _r_size.w,
-      height: _r_size.h
+      width: _r_size.w + 40,
+      height: _r_size.h + 40
     });
     snippet.find('.tile').css({
       width: _r_size.w,
@@ -116,7 +124,7 @@ var ListView = Backbone.View.extend({
       width: _r_size.w,
       height: _r_size.h
     });
-    this.setting.total += (_r_size.w + 20);
+    this.setting.total += (_r_size.w + 41);
     return snippet;
   },
   getTpl: function(data, type){
@@ -124,4 +132,14 @@ var ListView = Backbone.View.extend({
   }
 });
 
-var app = new ListView();
+$(document).ready(function(){
+  
+  var app = new ListView();
+
+  $(window).on('resize', function(e){
+    console.log('resize');
+    app.resetView();
+    app.initView();
+  });
+
+});

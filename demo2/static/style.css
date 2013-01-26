@@ -57,6 +57,7 @@ a {
 
 .template > div {
   display: inline-block;
+  padding: 20px;
 }
 
 .pt20 {
@@ -159,7 +160,7 @@ a {
   z-index: 2;
 }
 
-.desciption .bg {
+.description .bg {
   background-color: #000000;
   height: 100%;
   opacity: 0.5;
@@ -174,7 +175,7 @@ a {
   padding: 0 5px 0 3px;
 }
 
-.desciption .label {
+.description .label {
   color: #FFFFFF;
   cursor: pointer;
   display: inline-block;

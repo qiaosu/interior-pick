@@ -28,11 +28,18 @@ post '/upload' do
   redirect to('/iframeupload/'+cb)
 end
 
-get '/folder/:name' do
+get '/show/:name' do
+  js :underscore, :backbone, :app
+  @name = params[:name]
+  haml :show
+end
+
+get '/request/:name' do
   @picData = []
   Dir.glob(File.expand_path("../public/resources/" + params[:name] + "/*.jpg", __FILE__)) do |f|
     @picData << {
       :description => File.basename(f),
+      :src => "../resources/" + params[:name] + "/" + File.basename(f),
       :date => File.ctime(f),
       :w => FastImage.size(f)[0],
       :h => FastImage.size(f)[1]

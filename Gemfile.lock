@@ -75,6 +75,7 @@ GEM
       data_objects (= 0.10.10)
     eventmachine (1.0.0)
     fastercsv (1.5.5)
+    fastimage (1.2.13)
     haml (3.1.7)
     i18n (0.6.1)
     json (1.7.5)
@@ -104,6 +105,7 @@ DEPENDENCIES
   data_mapper
   debugger
   dm-mysql-adapter
+  fastimage
   haml
   json
   sinatra

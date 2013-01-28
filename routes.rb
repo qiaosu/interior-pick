@@ -27,3 +27,17 @@ post '/upload' do
   cb = params[:callbackName]
   redirect to('/iframeupload/'+cb)
 end
+
+get '/folder/:name' do
+  @picData = []
+  Dir.glob(File.expand_path("../public/resources/" + params[:name] + "/*.jpg", __FILE__)) do |f|
+    @picData << {
+      :description => File.basename(f),
+      :date => File.ctime(f),
+      :w => FastImage.size(f)[0],
+      :h => FastImage.size(f)[1]
+    }
+  end
+  puts @picData
+  @picData.to_json
+end

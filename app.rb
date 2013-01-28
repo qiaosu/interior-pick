@@ -8,6 +8,7 @@ require 'dm-mysql-adapter'
 require 'carrierwave'
 require 'carrierwave/datamapper'
 #require 'rmagick'
+require 'fastimage'
 
 enable :sessions
 

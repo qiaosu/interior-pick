@@ -9,4 +9,5 @@ gem 'debugger'
 gem 'sinatra'
 gem 'carrierwave'
 gem 'carrierwave-datamapper', :require => 'carrierwave/datamapper'
-gem "rmagick"
+# gem "rmagick"
+gem "fastimage"

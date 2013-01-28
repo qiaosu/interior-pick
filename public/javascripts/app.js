@@ -18,7 +18,7 @@ var PicItem = Backbone.Model.extend({
 
 var PicList = Backbone.Collection.extend({
   model: window.PicItem,
-  url: "/request/lanting"
+  url: "/request/" + $('input[name="folder"]').val()
 });
 
 var Template = {
@@ -49,7 +49,13 @@ var ListView = Backbone.View.extend({
   initialize: function(){
     this.model = new window.PicList();
     this.initData();
+    this.bindEvents();
     _.bindAll(this);
+  },
+  bindEvents: function(){
+    // MOUSE EVENTS
+    $(this.el).on('DOMMouseScroll', this.onMouseScroll);
+    $(this.el).on('mousewheel', this.onMouseScroll);
   },
   initData: function(){
     var _self = this;
@@ -65,9 +71,7 @@ var ListView = Backbone.View.extend({
     var _self = this;
     $(_self.el).empty();
     _.each(this.model.models, function(data){
-      console.log(data.attributes);
       var snippet = _self.getTpl(data.attributes, Template.item_tpl);
-      console.log(snippet);
       snippet = $(snippet);
       snippet = _self.calulatePos(data, snippet);
       $(_self.el).append(snippet);
@@ -94,6 +98,41 @@ var ListView = Backbone.View.extend({
     });
     this.setting.total += (_r_size.w + 41);
     return snippet;
+  },
+  onMouseScroll: function(e){
+    var delta       = 0,
+        scroll_to   = 0;
+    if (!e) {
+        e = window.event;
+    }
+    if (e.originalEvent) {
+        e = e.originalEvent;
+    }
+    if (e.wheelDelta) {
+        delta = e.wheelDelta/6;
+    } else if (e.detail) {
+        delta = -e.detail*12;
+    }
+    if (delta) {
+        if (e.preventDefault) {
+             e.preventDefault();
+             e.stopPropagation();
+        }
+        e.returnValue = false;
+    }
+    // Webkit
+    if (typeof e.wheelDeltaX != 'undefined' ) {
+        delta = e.wheelDeltaY/6;
+        if (Math.abs(e.wheelDeltaX) > Math.abs(e.wheelDeltaY)) {
+            delta = e.wheelDeltaX/6;
+        } else {
+            delta = e.wheelDeltaY/6;
+        }
+    }
+    // Stop from scrolling too far
+    scroll_to = document.body.scrollLeft - delta;
+    
+    document.body.scrollLeft = scroll_to;
   },
   getTpl: function(data, type){
     return type(data);

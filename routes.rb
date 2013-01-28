@@ -30,7 +30,6 @@ end
 
 get '/show/:name' do
   js :underscore, :backbone, :app
-  @name = params[:name]
   haml :show
 end
 

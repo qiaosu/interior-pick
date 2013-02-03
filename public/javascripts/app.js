@@ -38,7 +38,9 @@ var ListView = Backbone.View.extend({
     },
     total: 0
   },
-  events: {},
+  events: {
+    'click .pic-link': 'viewPic'
+  },
   resetView: function(){
     this.setting.view = {
       w: $(window).width(),
@@ -81,8 +83,8 @@ var ListView = Backbone.View.extend({
   calulatePos: function(data, snippet){
     var _size = this.setting.view;
     var _r_size = {
-      h: _size.h - 40,
-      w: data.get('w') * (_size.h - 40) / data.get('h')
+      h: _size.h - 56,
+      w: data.get('w') * (_size.h - 56) / data.get('h')
     };
     snippet.css({
       width: _r_size.w + 40,
@@ -98,6 +100,9 @@ var ListView = Backbone.View.extend({
     });
     this.setting.total += (_r_size.w + 41);
     return snippet;
+  },
+  viewPic: function(e){
+    e.preventDefault();
   },
   onMouseScroll: function(e){
     var delta       = 0,
